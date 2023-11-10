@@ -8,8 +8,13 @@
 // }
 // } 
 // module.exports = connectDB
-const mongoose = require('mongoose');
 
+
+// changes 
+
+
+
+const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
     await mongoose.connect('mongodb+srv://nikhilkalkalb:RahulChutiya@cluster0.qxq3ctk.mongodb.net/', {
@@ -18,7 +23,7 @@ const connectDB = async () => {
     });
     console.log('MongoDB connected');
   } catch (error) {
-    console.error('Mongoose connection error:', error);
+    console.error('Mongoose connection errors  ::::', error);
   }
 };
 //RahulChutiya
