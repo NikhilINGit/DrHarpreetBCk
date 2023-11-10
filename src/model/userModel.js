@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema({
     },userType:{
         type:Number,
         default:2
+    },userName:{
+        type:String
     }
 //     userType:{
 // type: String,

@@ -72,7 +72,7 @@ async function register(req, res) {
       await userObj.save();
       response.userResponse(res, "user are registered", userObj);
     } else {
-      response.errorResponse(res, "Already registered", checkuser);
+      response.errorResponse(res, "error", checkuser);
     }
   } catch (error) {
     console.log("error in register function ", error);

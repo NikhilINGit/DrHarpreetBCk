@@ -2,7 +2,7 @@
 // var router = express.Router();
 
 /* GET home page. */
-
+// pass atlas   vAIEbI81NPmNoBQZ   user name  nikhilkalkalb
 
 // module.exports = router;
 var express = require('express');
@@ -12,5 +12,5 @@ router.post("/signup",userController.register);
 router.post("/login",userController.login);
 router.put("/reset/:id",userController.reset);
 router.delete("/delete/:id",userController.deleted);
-router.get("/allUser",userController.getAllUser);
+router.get("/allUser",userController.getAllUser); 
 module.exports = router;
