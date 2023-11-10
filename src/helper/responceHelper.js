@@ -28,7 +28,7 @@ async function userResponse(res, message, data) {
 async function negativeResponce(res, message, error) {
     
   return res.status(200).send({
-    success: true,
+    success: false,
     message,
     error,
   });
@@ -38,7 +38,7 @@ function errorResponse(res, message, error){
   return function (error) {
     if (error) {
       var responseMessage = buildErrorResponse(message, error);
-      if (message == VALIDATION_ERROR_KEY) {
+      if (message == "VALIDATION_ERROR_KEY") {
         return response.status(400).send(responseMessage);
       } else if (message == NOT_FOUND_ERROR_KEY) {
         return response.status(404).send(responseMessage);
