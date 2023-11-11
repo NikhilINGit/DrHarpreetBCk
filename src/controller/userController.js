@@ -1,6 +1,7 @@
 const model=require("../model/userModel");
 const response=require("../helper/responceHelper");
 
+
 exports.register=register;
 exports.login=login;
 exports.reset=reset;
@@ -8,6 +9,7 @@ exports.deleted=deleted;
 exports.getAllUser=getAllUser;
 exports.convertInventry=convertInventry;
 exports.allInventry=allInventry;
+
 async function allInventry(req,res){
     try {
         const getAllUsers = await model.find({userType:3});
