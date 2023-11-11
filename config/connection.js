@@ -1,3 +1,4 @@
+
 // const mongoose = require('mongoose');
 // const connectDB = async ()=>{
 // try {
@@ -13,7 +14,7 @@
 // changes 
 
 
-
+ 
 const mongoose = require('mongoose');
 const connectDB = async () => {
   try {
@@ -27,5 +28,5 @@ const connectDB = async () => {
   }
 };
 //RahulChutiya
-
+ 
 module.exports = connectDB;
