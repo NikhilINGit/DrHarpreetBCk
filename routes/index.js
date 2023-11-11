@@ -11,6 +11,8 @@ const userController =require('../src/controller/userController');
 router.post("/signup",userController.register);
 router.post("/login",userController.login);
 router.put("/reset/:id",userController.reset);
+router.put("/convert/inventry",userController.convertInventry)
 router.delete("/delete/:id",userController.deleted);
 router.get("/allUser",userController.getAllUser); 
+router.get("/inventry/user",userController.allInventry)
 module.exports = router;

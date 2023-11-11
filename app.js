@@ -6,6 +6,7 @@ var logger = require('morgan');
 var connectDb = require("./config/connection");
 const dotenv = require('dotenv')
 var indexRouter = require('./routes/index');
+var cors = require("cors")
 // var usersRouter = require('./routes/users');
 
 var app = express();
@@ -21,7 +22,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+// app.use(
+//   cors({
+//     // for cookie
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
+app.use(cors());
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
