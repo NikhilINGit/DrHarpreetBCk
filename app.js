@@ -4,8 +4,11 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var connectDb = require("./config/connection");
-const dotenv = require("dotenv");
-var indexRouter = require("./routes/index");
+const dotenv = require('dotenv')
+var indexRouter = require('./routes/index');
+var cors = require("cors")
+
+
 // var usersRouter = require('./routes/users');
 const cors = require("cors");
 
@@ -22,10 +25,17 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", indexRouter);
-
+app.use(express.static(path.join(__dirname, 'public')));
+// app.use(
+//   cors({
+//     // for cookie
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
+app.use(cors());
+app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
