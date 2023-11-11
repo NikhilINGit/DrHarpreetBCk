@@ -60,7 +60,7 @@ async function login(req, res) {
 
 async function register(req, res) {
   try {
-    var { email, password } = req.body;
+    var { email, password, userName } = req.body;
 
     var checkuser = await model.findOne({ email: email });
 
@@ -69,6 +69,7 @@ async function register(req, res) {
       userObj.email = email;
       userObj.password = password;
       // userObj.userType=2;
+      userObj.userName = userName;
       await userObj.save();
       response.userResponse(res, "user are registered", userObj);
     } else {
