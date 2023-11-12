@@ -16,7 +16,7 @@ async function deleteProduct(req, res) {
       response.userResponse(res, "Product are deleted", {});
     } catch (error) {
       console.log("error in delete Product Function function ", error);
-      response.errorResponse(res, "error", {});
+      response.negativeResponce(res, "error", {});
     }
   }
 async function createProduct(req, res) {
@@ -25,6 +25,7 @@ async function createProduct(req, res) {
       var checkproduct = await Product.findOne({ productName: productName });
   
       if (checkproduct == null) {
+        console.log("2====",checkproduct);
         var prodObj = new Product({});
         prodObj.productName = productName;
         prodObj.price = price;
@@ -32,11 +33,12 @@ async function createProduct(req, res) {
         await prodObj.save();
         response.userResponse(res, "Product Created", prodObj);
       } else {
-        response.errorResponse(res, "error", checkproduct);
+        console.log("666====",checkproduct)
+        response.negativeResponce(res, "already created", {});
       }
     } catch (error) {
       console.log("error in product create function ", error);
-      response.errorResponse(res, "error", {});
+      response.negativeResponce(res, "error", {});
     }
   }
 
