@@ -47,7 +47,7 @@ async function deleted(req, res) {
     response.userResponse(res, "user forgoted", {});
   } catch (error) {
     console.log("error in delete function ", error);
-    response.errorResponse(res, "error", {});
+    response.negativeResponce(res, "error", {});
   }
 }
 
@@ -76,7 +76,7 @@ async function login(req, res) {
     }
   } catch (error) {
     console.log("error in register function ", error);
-    response.errorResponse(res, "error", {});
+    response.negativeResponce(res, "error", {});
   }
 }
 
@@ -95,10 +95,10 @@ async function register(req, res) {
       await userObj.save();
       response.userResponse(res, "user are registered", userObj);
     } else {
-      response.errorResponse(res, "error", checkuser);
+      response.negativeResponce(res, "error", checkuser);
     }
   } catch (error) {
     console.log("error in register function ", error);
-    response.errorResponse(res, "error", {});
+    response.negativeResponce(res, "error", {});
   }
 }
