@@ -6,10 +6,9 @@ exports.createProduct = createProduct;
 exports.deleteProduct = deleteProduct;
 
 async function deleteProduct(req, res) {
-  console.log("-------", req.body);
+  // console.log("-------", req.body);
   try {
     var { _id } = req.body;
-    console.log("fdfdfd0", _id);
     var deleteP = await Product.findByIdAndDelete(_id);
 
     // var allUsers=model.find({});

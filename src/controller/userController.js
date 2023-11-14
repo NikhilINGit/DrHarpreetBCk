@@ -42,7 +42,7 @@ async function getAllUser(req,res){
 
 async function deleted(req, res) {
   try {
-    await model.findByIdAndDelete(req.params.id);
+    await model.findByIdAndDelete(req.body.id);
     // var allUsers=model.find({});
     response.userResponse(res, "user forgoted", {});
   } catch (error) {
