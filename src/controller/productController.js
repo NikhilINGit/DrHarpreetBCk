@@ -1,14 +1,39 @@
 const Product = require("../model/productModel");
 const response = require("../helper/responceHelper");
+const TaskModel=require("../model/taskModel");
 exports.allProducts = allProducts;
 exports.createProduct = createProduct;
 // exports.createProduct=createProduct;
 exports.deleteProduct = deleteProduct;
 exports.buyProduct=buyProduct;
+// four digit generate num function 
+function generateRandomFourDigitNumber() {
+  return Math.floor(1000 + Math.random() * 9000);
+}
+
 async function buyProduct(req,res){
   try {
-    var { _id ,price} = req.body;
+    var { _id ,quantity,price,user} = req.body;
     console.log(_id ,price," 11 line");
+    const ser_no= generateRandomFourDigitNumber();
+    const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
+    var newTask= new TaskModel({});
+    if(tsknum===null){
+        newTask.serial_no=ser_no;
+        newTask.price=price;
+        newTask.quantity=quantity;
+        newTask.applied=user;
+        await newTask.save();
+        response.userResponse(res, "Task Create", newTask);
+    }else{
+      newTask.serial_no=ser_no+0.101;
+      newTask.price=price;
+      newTask.quantity=quantity;
+      newTask.applied=user;
+      await newTask.save();
+      response.userResponse(res, "Task Create", newTask);
+    }
+
   } catch (error) {
     response.negativeResponce(res, "error", {});
   }
