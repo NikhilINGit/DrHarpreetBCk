@@ -66,18 +66,18 @@ async function login(req, res) {
   try {
     var { email, password } = req.body;
     var checkuser={};
-     checkuser = await model.findOne({ email: email });
+     checkuser.user = await model.findOne({ email: email });
     if (!checkuser) {
       response.userResponse(res, "no user find", {});
-    } else if (checkuser.password == password) {
+    } else if (checkuser.user.password == password) {
       const token = await JWT.sign({ _id: checkuser._id }, process.env.SECRATE_KEY, {
         expiresIn: "1d",
       });
       
       checkuser.token=token;
       
-      // console.log("=====checkUser  token are  ",checkuser.token);
-      response.userResponse(res, "user logined", checkuser);
+      // console.log("=====checkUser  token are  ",checkuser.token,"====",checkuser.user);
+      response.userResponse(res, "user logined", checkuser.user);
     } else {
       response.userResponse(res, "Incorrect password", {});
     }
