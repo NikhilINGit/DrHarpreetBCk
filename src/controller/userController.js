@@ -77,7 +77,7 @@ async function login(req, res) {
       checkuser.token=token;
       
       // console.log("=====checkUser  token are  ",checkuser.token,"====",checkuser.user);
-      response.userResponse(res, "user logined", checkuser.user);
+      response.userResponse(res, "user logined", checkuser);
     } else {
       response.userResponse(res, "Incorrect password", {});
     }
