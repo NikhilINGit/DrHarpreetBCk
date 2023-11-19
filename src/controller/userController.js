@@ -1,7 +1,6 @@
 const model=require("../model/userModel");
 const response=require("../helper/responceHelper");
-
-
+const JWT=require("jsonwebtoken")
 exports.register=register;
 exports.login=login;
 exports.reset=reset;
@@ -66,10 +65,18 @@ async function reset(req,res){
 async function login(req, res) {
   try {
     var { email, password } = req.body;
-    var checkuser = await model.findOne({ email: email });
+    var checkuser={};
+     checkuser = await model.findOne({ email: email });
     if (!checkuser) {
       response.userResponse(res, "no user find", {});
     } else if (checkuser.password == password) {
+      const token = await JWT.sign({ _id: checkuser._id }, process.env.SECRATE_KEY, {
+        expiresIn: "1d",
+      });
+      
+      checkuser.token=token;
+      
+      // console.log("=====checkUser  token are  ",checkuser.token);
       response.userResponse(res, "user logined", checkuser);
     } else {
       response.userResponse(res, "Incorrect password", {});

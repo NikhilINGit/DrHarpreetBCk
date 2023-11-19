@@ -4,7 +4,15 @@ exports.allProducts = allProducts;
 exports.createProduct = createProduct;
 // exports.createProduct=createProduct;
 exports.deleteProduct = deleteProduct;
-
+exports.buyProduct=buyProduct;
+async function buyProduct(req,res){
+  try {
+    var { _id ,price} = req.body;
+    console.log(_id ,price," 11 line");
+  } catch (error) {
+    response.negativeResponce(res, "error", {});
+  }
+}
 async function deleteProduct(req, res) {
   // console.log("-------", req.body);
   try {

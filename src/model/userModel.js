@@ -1,5 +1,5 @@
 const mongoose=require("mongoose");
-// var jwt=require('jsonwebtoken');
+var jwt=require('jsonwebtoken');
 const connection=require('../../config/connection');
 const userSchema = new mongoose.Schema({
     email:{
@@ -19,9 +19,9 @@ const userSchema = new mongoose.Schema({
 // require:true
 //     }
 },{timestamps:true});
-// userSchema.methods.getJWTToken = function () {
-//     return jwt.sign({ id: this._id }, process.env.SECRATE_KEY);
-//   };
+userSchema.methods.getJWTToken = function () {
+    return jwt.sign({ id: this._id }, process.env.SECRATE_KEY);
+  };
 
 const user = new mongoose.model('user',userSchema);
 module.exports = user;
