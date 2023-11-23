@@ -21,6 +21,12 @@ type:Number
     },softDelete:{
         type:Boolean,
         default:false
+    },approvedByAdmin:{
+        type:Boolean,default:false
+    },approvedByQualityChaker:{
+        type:Boolean,default:false
+    },approvedByGuird:{
+        type:Boolean,default:false
     }
 
 },{timestamps:true});

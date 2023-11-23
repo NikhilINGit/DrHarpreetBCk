@@ -9,15 +9,11 @@ const userSchema = new mongoose.Schema({
         type:String
     },userType:{
         type:Number,
-        default:2
+        default:null
     },userName:{
         type:String
     }
-//     userType:{
-// type: String,
-// default:2,
-// require:true
-//     }
+
 },{timestamps:true});
 userSchema.methods.getJWTToken = function () {
     return jwt.sign({ id: this._id }, process.env.SECRATE_KEY);

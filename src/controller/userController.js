@@ -1,6 +1,7 @@
 const model=require("../model/userModel");
 const response=require("../helper/responceHelper");
-const JWT=require("jsonwebtoken")
+const JWT=require("jsonwebtoken");
+const user = require("../model/userModel");
 exports.register=register;
 exports.login=login;
 exports.reset=reset;
@@ -8,7 +9,9 @@ exports.deleted=deleted;
 exports.getAllUser=getAllUser;
 exports.convertInventry=convertInventry;
 exports.allInventry=allInventry;
-
+exports.convertQualityCheck=convertQualityCheck;
+exports.convertAccount=convertAccount;
+exports.convertGuard=convertGuard;
 async function allInventry(req,res){
     try {
         const getAllUsers = await model.find({userType:3});
@@ -29,6 +32,40 @@ async function  convertInventry (req,res){
         response.negativeResponce(res, "error", {});  
     }
 }
+async function  convertGuard (req,res){
+    
+    try {
+        // var =req.body._id;
+        var checkuser=await model.findByIdAndUpdate(req.body._id, { userType: 4 });
+        response.userResponse(res, "user updated",checkuser);
+    } catch (error) {
+        console.log("error in covert invenrty function ",error);
+        response.negativeResponce(res, "error", {});  
+    }
+}
+async function  convertAccount (req,res){
+    
+    try {
+        // var =req.body._id;
+        var checkuser=await model.findByIdAndUpdate(req.body._id, { userType: 2 });
+        response.userResponse(res, "user updated",checkuser);
+    } catch (error) {
+        console.log("error in covert invenrty function ",error);
+        response.negativeResponce(res, "error", {});  
+    }
+}
+async function  convertQualityCheck (req,res){
+    
+    try {
+        // var =req.body._id;
+        var checkuser=await model.findByIdAndUpdate(req.body._id, { userType: 5 });
+        response.userResponse(res, "user updated",checkuser);
+    } catch (error) {
+        console.log("error in covert invenrty function ",error);
+        response.negativeResponce(res, "error", {});  
+    }
+}
+
 async function getAllUser(req,res){
     try {
         const getAllUsers = await model.find({});
@@ -90,9 +127,7 @@ async function login(req, res) {
 async function register(req, res) {
   try {
     var { email, password, userName } = req.body;
-
     var checkuser = await model.findOne({ email: email });
-
     if (checkuser == null) {
       var userObj = new model({});
       userObj.email = email;
