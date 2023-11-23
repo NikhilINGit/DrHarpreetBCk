@@ -6,8 +6,12 @@ exports.adminacess=adminacess;
 exports.expectAdminAccess=expectAdminAccess;
 async function authMidle(req,res,next){
     try {    
+        console.log("=====",req.headers.authorization)
     const decode = JWT.verify(req.headers.authorization,process.env.SECRATE_KEY);
     req.user=decode;
+    var nik=decode;
+    console.log("---",decode);
+    console.log("11  : ",nik);
     next();
     } catch (error) {
         console.log("error are in authentication middleware ",error);
@@ -19,6 +23,7 @@ async function adminacess(req,res,next){
     try {
         const decode = JWT.verify(req.headers.authorization,process.env.SECRATE_KEY);
     req.user=decode;
+    console.log('=====22==',req.user._id);
         const user=await userModel.findById(req.user._id);
         if(user.userType !== "1"){
             return res.status(401).send({

@@ -12,6 +12,36 @@ exports.allInventry=allInventry;
 exports.convertQualityCheck=convertQualityCheck;
 exports.convertAccount=convertAccount;
 exports.convertGuard=convertGuard;
+exports.allAccount=allAccount;
+exports.allGuard=allGuard;
+exports.allQualityCheck=allQualityCheck;
+async function allQualityCheck(req,res){
+    try {
+        const QualityCheck = await model.find({userType:5});
+        return response.userResponse(res,"AllUsers",QualityCheck);
+    } catch (error) {
+        console.log("error ",error);
+        return response.negativeResponce(res,`error +${error}`, error); 
+    }
+}
+async function allGuard(req,res){
+    try {
+        const getAllGuard = await model.find({userType:4});
+        return response.userResponse(res,"AllUsers",getAllGuard);
+    } catch (error) {
+        console.log("error ",error);
+        return response.negativeResponce(res,`error +${error}`, error); 
+    }
+}
+async function allAccount(req,res){
+    try {
+        const accountUser = await model.find({userType:2});
+        return response.userResponse(res,"AllUsers",accountUser);
+    } catch (error) {
+        console.log("error ",error);
+        return response.negativeResponce(res,`error +${error}`, error); 
+    }
+}
 async function allInventry(req,res){
     try {
         const getAllUsers = await model.find({userType:3});
