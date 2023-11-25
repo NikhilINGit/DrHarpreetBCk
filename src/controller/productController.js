@@ -1,57 +1,69 @@
 const Product = require("../model/productModel");
 const response = require("../helper/responceHelper");
 const TaskModel=require("../model/taskModel");
+const task = require("../model/taskModel");
 exports.allProducts = allProducts;
 exports.createProduct = createProduct;
-// exports.createProduct=createProduct;
 exports.deleteProduct = deleteProduct;
 exports.buyProduct=buyProduct;
+exports.deleteTask=deleteTask;
+exports.getAllTask=getAllTask;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
 }
-
+async function getAllTask(req, res) {
+  try {
+    const getAllProduct = await task.find({softDelete:false});
+    return response.userResponse(res, "All Products", getAllProduct);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
 async function buyProduct(req,res){
   try {
-    var { _id ,quantity,price,user} = req.body;
-    console.log(_id ,price," 11 line");
-    const ser_no= generateRandomFourDigitNumber();
+    var { product_id ,quantity} = req.body;
+    var ser_no= generateRandomFourDigitNumber();
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
+    const product = await Product.findById(product_id).select({price:1});
+    const productPrice = product.price;
+    const taskPrice=productPrice*quantity;
     var newTask= new TaskModel({});
-    if(tsknum===null){
-        newTask.serial_no=ser_no;
-        newTask.price=price;
-        newTask.quantity=quantity;
-        newTask.applied=user;
-        await newTask.save();
-        response.userResponse(res, "Task Create", newTask);
-    }else{
-      newTask.serial_no=ser_no+0.101;
-      newTask.price=price;
+      ser_no=ser_no+0.101;
+      newTask.serial_no=ser_no;
+      newTask.price=taskPrice;
       newTask.quantity=quantity;
-      newTask.applied=user;
+      newTask.userReq=req.user._id;
+      newTask.productID=product_id;
       await newTask.save();
       response.userResponse(res, "Task Create", newTask);
-    }
-
   } catch (error) {
     response.negativeResponce(res, "error", {});
   }
 }
+// deleted task
+
+async function deleteTask(req, res) {
+  try {
+    var { _id } = req.body;
+    var deleteP = await task.findByIdAndDelete(_id);
+    response.userResponse(res, "task are deleted", {});
+  } catch (error) {
+    console.log("error in delete task Function function ", error);
+    response.negativeResponce(res, "error", {});
+  }
+}
 async function deleteProduct(req, res) {
-  // console.log("-------", req.body);
   try {
     var { _id } = req.body;
     var deleteP = await Product.findByIdAndDelete(_id);
-
-    // var allUsers=model.find({});
     response.userResponse(res, "Product are deleted", {});
   } catch (error) {
     console.log("error in delete Product Function function ", error);
     response.negativeResponce(res, "error", {});
   }
 }
-
 async function createProduct(req, res) {
   try {
     var { productName, price } = req.body;
@@ -105,3 +117,4 @@ async function allProducts(req, res) {
     return response.negativeResponce(res, `error +${error}`, error);
   }
 }
+

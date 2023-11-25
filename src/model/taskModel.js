@@ -5,7 +5,7 @@ const taskSchema = new mongoose.Schema({
     
     serial_no:{
 type:Number
-    },apllied:{
+    },userReq:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
     },
@@ -17,7 +17,7 @@ type:Number
         type:Number,
         default:2
     },quantity:{
-        type:String
+        type:Number
     },softDelete:{
         type:Boolean,
         default:false

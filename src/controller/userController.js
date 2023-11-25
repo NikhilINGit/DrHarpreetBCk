@@ -137,13 +137,11 @@ async function login(req, res) {
     if (!checkuser) {
       response.userResponse(res, "no user find", {});
     } else if (checkuser.user.password == password) {
-      const token = await JWT.sign({ _id: checkuser._id }, process.env.SECRATE_KEY, {
+      const token = await JWT.sign({ _id: checkuser.user._id }, process.env.SECRATE_KEY, {
         expiresIn: "1d",
       });
       
       checkuser.token=token;
-      
-      // console.log("=====checkUser  token are  ",checkuser.token,"====",checkuser.user);
       response.userResponse(res, "user logined", checkuser);
     } else {
       response.userResponse(res, "Incorrect password", {});
