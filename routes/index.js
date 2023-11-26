@@ -41,6 +41,7 @@ router.get("/allGuard", middleware.authMidle,middleware.adminacess,userControlle
 router.get("/allQualityCheck", middleware.authMidle,middleware.adminacess,userController.allQualityCheck);
 router.get("/allTask", middleware.authMidle,middleware.adminacess,productController.getAllTask);
 router.post("/deleteTask", middleware.authMidle,middleware.adminacess,productController.deleteTask);
+router.post("/approvedTask", middleware.authMidle,middleware.adminacess,productController.taskApproved);
 // userType: 3 api (inventry);
 
 // allAccount
