@@ -40,6 +40,7 @@ router.get("/allAccount", middleware.authMidle,middleware.adminacess,userControl
 router.get("/allGuard", middleware.authMidle,middleware.adminacess,userController.allGuard);
 router.get("/allQualityCheck", middleware.authMidle,middleware.adminacess,userController.allQualityCheck);
 router.get("/allTask", middleware.authMidle,middleware.adminacess,productController.getAllTask);
+router.post("/deleteTask", middleware.authMidle,middleware.adminacess,productController.deleteTask);
 // userType: 3 api (inventry);
 
 // allAccount

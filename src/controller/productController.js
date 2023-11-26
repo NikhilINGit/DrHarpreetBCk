@@ -9,6 +9,7 @@ exports.buyProduct=buyProduct;
 exports.deleteTask=deleteTask;
 exports.getAllTask=getAllTask;
 exports.TaskByUser=TaskByUser;
+exports.taskApproved=taskApproved;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -23,6 +24,16 @@ async function getAllTask(req, res) {
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function taskApproved(req, res) {
+  try {
+    var { _id } = req.body;
+    var approved = await task.findByIdAndUpdate(_id, { approvedByAdmin: true });;
+    response.userResponse(res, "aapproved by admin", approved);
+  } catch (error) {
+    console.log("error in approved functionalityFunction function ", error);
+    response.negativeResponce(res, "error", {});
   }
 }
 async function TaskByUser(req, res) {
