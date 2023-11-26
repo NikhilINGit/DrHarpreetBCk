@@ -18,10 +18,7 @@ async function getAllTask(req, res) {
     const getAllProduct = await task.find({softDelete:false}).populate({
       path:'productID',
       select:{"productName":1},
-  }).populate({
-    path:'productID',
-    select:{"price":1},
-});
+  });
     return response.userResponse(res, "All Products", getAllProduct);
   } catch (error) {
     console.log("error ", error);
