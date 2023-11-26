@@ -52,6 +52,8 @@ router.get("/account/allTask",middleware.authMidle,middleware.expectAdminAccess,
 router.get("/guard/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskGuard);
 router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
 router.post("/quality/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.qualityTaskApproved);
+router.post("/guard/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.guardTaskApproved);
+router.post("/account/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.accountTaskApproved);
 // router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
 // router.get("/account/allTask",productController.getTaskAccount);
 // router.post("/buyProduct",productController.buyProduct);

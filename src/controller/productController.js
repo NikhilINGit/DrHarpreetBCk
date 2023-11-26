@@ -14,6 +14,8 @@ exports.getTaskAccount=getTaskAccount;
 exports.getTaskGuard=getTaskGuard;
 exports.getTaskQuality=getTaskQuality;
 exports.qualityTaskApproved=qualityTaskApproved;
+exports.guardTaskApproved=guardTaskApproved;
+exports.accountTaskApproved=accountTaskApproved;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -28,6 +30,26 @@ async function getAllTask(req, res) {
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function accountTaskApproved(req, res) {
+  try {
+    var { _id } = req.body;
+    var approved = await task.findByIdAndUpdate(_id, { approvedByAccount: true });;
+    response.userResponse(res, "aapproved by Account", approved);
+  } catch (error) {
+    console.log("error in approved functionalityFunction function ", error);
+    response.negativeResponce(res, "error", {});
+  }
+}
+async function guardTaskApproved(req, res) {
+  try {
+    var { _id } = req.body;
+    var approved = await task.findByIdAndUpdate(_id, { approvedByGuird: true });;
+    response.userResponse(res, "aapproved by byQuality", approved);
+  } catch (error) {
+    console.log("error in approved functionalityFunction function ", error);
+    response.negativeResponce(res, "error", {});
   }
 }
 async function qualityTaskApproved(req, res) {
