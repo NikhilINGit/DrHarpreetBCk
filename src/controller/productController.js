@@ -15,7 +15,13 @@ function generateRandomFourDigitNumber() {
 }
 async function getAllTask(req, res) {
   try {
-    const getAllProduct = await task.find({softDelete:false});
+    const getAllProduct = await task.find({softDelete:false}).populate({
+      path:'product',
+      select:{"productName":1},
+  }).populate({
+    path:'product',
+    select:{"price":1},
+});
     return response.userResponse(res, "All Products", getAllProduct);
   } catch (error) {
     console.log("error ", error);
@@ -24,7 +30,10 @@ async function getAllTask(req, res) {
 }
 async function TaskByUser(req, res) {
   try {
-    const getAllProduct = await task.find({softDelete:false,userReq:req.user._id});
+    const getAllProduct = await task.find({softDelete:false,userReq:req.user._id}).populate({
+      path:'product',
+      select:{"productName":1},
+  });
     return response.userResponse(res, "All Products", getAllProduct);
   } catch (error) {
     console.log("error ", error);

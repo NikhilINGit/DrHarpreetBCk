@@ -28,6 +28,9 @@ type:Number
     },approvedByGuird:{
         type:Boolean,default:false
     }
+    ,approvedByAccount:{
+        type:Boolean,default:false
+    }
 
 },{timestamps:true});
 
