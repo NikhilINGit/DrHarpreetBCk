@@ -10,6 +10,10 @@ exports.deleteTask=deleteTask;
 exports.getAllTask=getAllTask;
 exports.TaskByUser=TaskByUser;
 exports.taskApproved=taskApproved;
+exports.getTaskAccount=getTaskAccount;
+exports.getTaskGuard=getTaskGuard;
+exports.getTaskQuality=getTaskQuality;
+exports.qualityTaskApproved=qualityTaskApproved;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -21,6 +25,52 @@ async function getAllTask(req, res) {
       select:{"productName":1},
   });
     return response.userResponse(res, "All Products", getAllProduct);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function qualityTaskApproved(req, res) {
+  try {
+    var { _id } = req.body;
+    var approved = await task.findByIdAndUpdate(_id, { approvedByQualityChaker: true });;
+    response.userResponse(res, "aapproved by byQuality", approved);
+  } catch (error) {
+    console.log("error in approved functionalityFunction function ", error);
+    response.negativeResponce(res, "error", {});
+  }
+}
+async function getTaskGuard(req, res) {
+  try {
+    const getAllTask = await task.find({softDelete:false,approvedByAdmin: true,approvedByAccount:true}).populate({
+      path:'productID',
+      select:{"productName":1},
+  });
+    return response.userResponse(res, "All Products", getAllTask);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function getTaskQuality(req, res) {
+  try {
+    const getAllTask = await task.find({softDelete:false,approvedByAdmin: true,approvedByAccount:true}).populate({
+      path:'productID',
+      select:{"productName":1},
+  });
+    return response.userResponse(res, "All Products", getAllTask);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function getTaskAccount(req, res) {
+  try {
+    const getAllTask = await task.find({softDelete:false,approvedByAdmin: true}).populate({
+      path:'productID',
+      select:{"productName":1},
+  });
+    return response.userResponse(res, "All Products", getAllTask);
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);

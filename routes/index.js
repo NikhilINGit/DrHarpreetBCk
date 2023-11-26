@@ -44,9 +44,15 @@ router.post("/deleteTask", middleware.authMidle,middleware.adminacess,productCon
 router.post("/approvedTask", middleware.authMidle,middleware.adminacess,productController.taskApproved);
 // userType: 3 api (inventry);
 
-// allAccount
+// other user type
 router.get("/inventry/allProduct",middleware.authMidle,middleware.expectAdminAccess,productController.allProducts);
 router.get("/inventry/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.TaskByUser);
 router.post("/buyProduct", middleware.authMidle,middleware.expectAdminAccess,productController.buyProduct);
+router.get("/account/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskAccount);
+router.get("/guard/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskGuard);
+router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
+router.post("/quality/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.qualityTaskApproved);
+// router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
+// router.get("/account/allTask",productController.getTaskAccount);
 // router.post("/buyProduct",productController.buyProduct);
 module.exports = router;
