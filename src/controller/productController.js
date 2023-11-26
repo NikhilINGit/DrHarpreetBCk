@@ -8,6 +8,7 @@ exports.deleteProduct = deleteProduct;
 exports.buyProduct=buyProduct;
 exports.deleteTask=deleteTask;
 exports.getAllTask=getAllTask;
+exports.TaskByUser=TaskByUser;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -15,6 +16,15 @@ function generateRandomFourDigitNumber() {
 async function getAllTask(req, res) {
   try {
     const getAllProduct = await task.find({softDelete:false});
+    return response.userResponse(res, "All Products", getAllProduct);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function TaskByUser(req, res) {
+  try {
+    const getAllProduct = await task.find({softDelete:false,userReq:req.user._id});
     return response.userResponse(res, "All Products", getAllProduct);
   } catch (error) {
     console.log("error ", error);

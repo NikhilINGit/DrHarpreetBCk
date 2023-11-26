@@ -98,7 +98,7 @@ async function  convertQualityCheck (req,res){
 
 async function getAllUser(req,res){
     try {
-        const getAllUsers = await model.find({});
+        const getAllUsers = await model.find({ userType: { $ne: 1 } });
         return response.userResponse(res,"AllUsers",getAllUsers);
     } catch (error) {
         console.log("error ",error);
@@ -144,7 +144,7 @@ async function login(req, res) {
       checkuser.token=token;
       response.userResponse(res, "user logined", checkuser);
     } else {
-      response.userResponse(res, "Incorrect password", {});
+      response.negativeResponce(res, "Incorrect password", {});
     }
   } catch (error) {
     console.log("error in register function ", error);

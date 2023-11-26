@@ -44,7 +44,7 @@ router.get("/allTask", middleware.authMidle,middleware.adminacess,productControl
 
 // allAccount
 router.get("/inventry/allProduct",middleware.authMidle,middleware.expectAdminAccess,productController.allProducts);
-router.get("/inventry/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getAllTask);
+router.get("/inventry/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.TaskByUser);
 router.post("/buyProduct", middleware.authMidle,middleware.expectAdminAccess,productController.buyProduct);
 // router.post("/buyProduct",productController.buyProduct);
 module.exports = router;
