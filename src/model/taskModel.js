@@ -3,7 +3,7 @@ const mongoose=require("mongoose");
 const connection=require('../../config/connection');
 const taskSchema = new mongoose.Schema({
     
-    serial_no:{
+    task_no:{
 type:Number
     },userReq:{
         type: mongoose.Schema.Types.ObjectId,

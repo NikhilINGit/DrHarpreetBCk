@@ -41,7 +41,7 @@ async function buyProduct(req,res){
     const taskPrice=productPrice*quantity;
     var newTask= new TaskModel({});
       ser_no=ser_no+0.101;
-      newTask.serial_no=ser_no;
+      newTask.task_no=ser_no;
       newTask.price=taskPrice;
       newTask.quantity=quantity;
       newTask.userReq=req.user._id;
