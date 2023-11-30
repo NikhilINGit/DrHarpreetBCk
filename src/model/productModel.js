@@ -16,6 +16,8 @@ const productSchema = new mongoose.Schema({
     },createdBy:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
+    },description:{
+        type:String
     }
 },{timestamps:true});
 // userSchema.methods.getJWTToken = function () {

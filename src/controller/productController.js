@@ -232,7 +232,7 @@ async function deleteProduct(req, res) {
 }
 async function createProduct(req, res) {
   try {
-    var { productName, price ,category} = req.body;
+    var { productName, price ,category,description} = req.body;
     var checkproduct = await Product.findOne({ productName: productName });
 
     if (checkproduct == null) {
@@ -240,6 +240,7 @@ async function createProduct(req, res) {
       var prodObj = new Product({});
       prodObj.productName = productName;
       prodObj.price = price;
+      prodObj.description = description;
       prodObj.category = category;
       prodObj.createdBy=req.user._id;
       await prodObj.save();

@@ -7,6 +7,9 @@ const venderSchema = new mongoose.Schema(
     },
     venderName: {
       type: String,
+    },createdBy:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
     },
     products: [
       {
