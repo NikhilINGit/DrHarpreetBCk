@@ -9,6 +9,13 @@ const productSchema = new mongoose.Schema({
         price:{
             type:Number,
         default:2
+    },
+    category:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "catery",
+    },createdBy:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
     }
 },{timestamps:true});
 // userSchema.methods.getJWTToken = function () {

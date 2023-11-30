@@ -160,12 +160,12 @@ async function register(req, res) {
       var userObj = new model({});
       userObj.email = email;
       userObj.password = password;
-      // userObj.userType=2;
+      // userObj.userType=1;
       userObj.userName = userName;
       await userObj.save();
       response.userResponse(res, "user are registered", userObj);
     } else {
-      response.negativeResponce(res, "error", checkuser);
+      response.negativeResponce(res, "already registered", checkuser);
     }
   } catch (error) {
     console.log("error in register function ", error);

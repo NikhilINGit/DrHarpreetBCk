@@ -2,6 +2,9 @@ const Product = require("../model/productModel");
 const response = require("../helper/responceHelper");
 const TaskModel=require("../model/taskModel");
 const task = require("../model/taskModel");
+const venders=require("../model/venderModel");
+const vender = require("../model/venderModel");
+const category=require("../model/categoryModel");
 exports.allProducts = allProducts;
 exports.createProduct = createProduct;
 exports.deleteProduct = deleteProduct;
@@ -16,6 +19,10 @@ exports.getTaskQuality=getTaskQuality;
 exports.qualityTaskApproved=qualityTaskApproved;
 exports.guardTaskApproved=guardTaskApproved;
 exports.accountTaskApproved=accountTaskApproved;
+exports.venderCreate=venderCreate;
+exports.allVenderData=allVenderData;
+exports.categoryCreated=categoryCreated;
+exports.allCategory=allCategory;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -30,6 +37,66 @@ async function getAllTask(req, res) {
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function allCategory(req, res) {
+  try {
+    const getAllCategory = await category.find();
+    return response.userResponse(res, "All Category", getAllCategory);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function allVenderData(req, res) {
+  try {
+    const getAllVender = await venders.find({softDelete:false});
+    return response.userResponse(res, "All vender", getAllVender);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function categoryCreated(req, res) {
+  try {
+    var { categoryName, Desciption } = req.body;
+    var checkCategory = await category.findOne({ categoryName: categoryName });
+    if (checkCategory == null) {
+      var catObj = new category({});
+      catObj.categoryName = categoryName;
+      catObj.Desciption = Desciption;
+      catObj.createdBy=req.user._id;
+      await catObj.save();
+      response.userResponse(res, "Category Created", catObj);
+    } else {
+      console.log("already category===", checkCategory);
+      response.negativeResponce(res, "already category created ", {});
+    }
+  } catch (error) {
+    console.log("error in category create function ", error);
+    response.negativeResponce(res, "error", {});
+  }
+}
+async function venderCreate(req, res) {
+  try {
+    var { email, venderName,products } = req.body;
+    var checkVender = await venders.findOne({ email: email });
+
+    if (checkVender == null) {
+      // console.log("2====", checkproduct);
+      var venderObj = new vender({});
+      venderObj.venderName = venderName;
+      venderObj.email = email;
+      venderObj.products=products;
+      await venderObj.save();
+      response.userResponse(res, "vender Created", venderObj);
+    } else {
+      console.log("666====", checkVender);
+      response.negativeResponce(res, "already vender rigester with this email", {});
+    }
+  } catch (error) {
+    console.log("error in vender create function ", error);
+    response.negativeResponce(res, "error", {});
   }
 }
 async function accountTaskApproved(req, res) {
@@ -165,7 +232,7 @@ async function deleteProduct(req, res) {
 }
 async function createProduct(req, res) {
   try {
-    var { productName, price } = req.body;
+    var { productName, price ,category} = req.body;
     var checkproduct = await Product.findOne({ productName: productName });
 
     if (checkproduct == null) {
@@ -173,11 +240,12 @@ async function createProduct(req, res) {
       var prodObj = new Product({});
       prodObj.productName = productName;
       prodObj.price = price;
-
+      prodObj.category = category;
+      prodObj.createdBy=req.user._id;
       await prodObj.save();
       response.userResponse(res, "Product Created", prodObj);
     } else {
-      console.log("666====", checkproduct);
+      console.log("===", checkproduct);
       response.negativeResponce(res, "already created", {});
     }
   } catch (error) {

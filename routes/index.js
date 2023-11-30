@@ -42,11 +42,14 @@ router.get("/allQualityCheck", middleware.authMidle,middleware.adminacess,userCo
 router.get("/allTask", middleware.authMidle,middleware.adminacess,productController.getAllTask);
 router.post("/deleteTask", middleware.authMidle,middleware.adminacess,productController.deleteTask);
 router.post("/approvedTask", middleware.authMidle,middleware.adminacess,productController.taskApproved);
+router.get("/all/category",middleware.authMidle,middleware.adminacess,productController.allCategory);
+router.post("/create/category",middleware.authMidle,middleware.adminacess,productController.categoryCreated);
 // userType: 3 api (inventry);
 
 // other user type
 router.get("/inventry/allProduct",middleware.authMidle,middleware.expectAdminAccess,productController.allProducts);
 router.get("/inventry/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.TaskByUser);
+router.post("/inventry/create/product",middleware.authMidle,middleware.expectAdminAccess, productController.createProduct);
 router.post("/buyProduct", middleware.authMidle,middleware.expectAdminAccess,productController.buyProduct);
 router.get("/account/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskAccount);
 router.get("/guard/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskGuard);
@@ -54,7 +57,13 @@ router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,
 router.post("/quality/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.qualityTaskApproved);
 router.post("/guard/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.guardTaskApproved);
 router.post("/account/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.accountTaskApproved);
+router.get("/all/category",middleware.authMidle,middleware.expectAdminAccess,productController.allCategory);
+router.post("/create/category",middleware.authMidle,middleware.expectAdminAccess,productController.categoryCreated);
 // router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
 // router.get("/account/allTask",productController.getTaskAccount);
 // router.post("/buyProduct",productController.buyProduct);
+
+// vender routes
+router.post("/vender/create",middleware.authMidle,middleware.expectAdminAccess,productController.venderCreate);
+router.get("/vender/getAll",middleware.authMidle,middleware.expectAdminAccess,productController.allVenderData);
 module.exports = router;
