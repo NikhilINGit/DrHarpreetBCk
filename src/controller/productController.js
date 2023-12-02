@@ -278,7 +278,10 @@ async function createProduct(req, res) {
 
 async function allProducts(req, res) {
   try {
-    const getAllProduct = await Product.find({});
+    const getAllProduct = await Product.find({}).populate({
+      path:'catery',
+      select:{"categoryName":1},
+  });;
     return response.userResponse(res, "All Products", getAllProduct);
   } catch (error) {
     console.log("error ", error);
