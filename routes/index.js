@@ -57,8 +57,10 @@ router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,
 router.post("/quality/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.qualityTaskApproved);
 router.post("/guard/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.guardTaskApproved);
 router.post("/account/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.accountTaskApproved);
-router.get("/all/category",middleware.authMidle,middleware.expectAdminAccess,productController.allCategory);
+router.get("/inventory/all/category",middleware.authMidle,middleware.expectAdminAccess,productController.allCategory);
 router.post("/create/category",middleware.authMidle,middleware.expectAdminAccess,productController.categoryCreated);
+// router.post("/inventory/all/category")
+router.get("/invetry/all/product",middleware.authMidle,middleware.expectAdminAccess,productController.productByCategory)
 // router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
 // router.get("/account/allTask",productController.getTaskAccount);
 // router.post("/buyProduct",productController.buyProduct);

@@ -23,6 +23,7 @@ exports.venderCreate=venderCreate;
 exports.allVenderData=allVenderData;
 exports.categoryCreated=categoryCreated;
 exports.allCategory=allCategory;
+exports.productByCategory=productByCategory;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -34,6 +35,19 @@ async function getAllTask(req, res) {
       select:{"productName":1},
   });
     return response.userResponse(res, "All Products", getAllProduct);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function productByCategory(req, res) {
+  try {
+    const CatID=req.params.id;
+    const getAllProduct = await Product.find({category:CatID}).populate({
+      path:'category',
+      select:{"categoryName":1},
+  });;
+    return response.userResponse(res, "All Products of This Category", getAllProduct);
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
