@@ -42,12 +42,10 @@ async function getAllTask(req, res) {
 }
 async function productByCategory(req, res) {
   try {
-    const CatID=req.params.id;
-    console.log("------->>>>>",CatID);
-    const getAllProduct = await Product.find({category:CatID}).populate({
+    const getAllProduct = await Product.find({category:req.query.id}).populate({
       path:'category',
       select:{"categoryName":1},
-  });;
+  });
     return response.userResponse(res, "All Products of This Category", getAllProduct);
   } catch (error) {
     console.log("error ", error);
