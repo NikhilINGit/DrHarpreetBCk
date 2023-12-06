@@ -57,7 +57,7 @@ async function getEmail(req,res){
           venderObj.createdBy=req.user._id;
           venderObj.otp=fourDigitCode;
           await venderObj.save();
-          response.userResponse(res, "form are send to vender", venderObj);
+          response.userResponse(res, " email store & form are send to vender", venderObj);
     }
   } catch (error) {
     console.log("error ", error);
