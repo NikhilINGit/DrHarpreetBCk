@@ -13,6 +13,7 @@ const productController = require("../src/controller/productController");
 // admin apis
 router.post("/signup", userController.register);
 router.post("/login", userController.login);
+router.get("/alls/category",productController.allCategory);
 router.put("/reset/:id",middleware.authMidle, userController.reset);
 
 // router.put("/convert/inventry",middleware.authMidle ,userController.convertInventry);
@@ -43,7 +44,6 @@ router.get("/allTask", middleware.authMidle,middleware.adminacess,productControl
 router.post("/deleteTask", middleware.authMidle,middleware.adminacess,productController.deleteTask);
 router.post("/approvedTask", middleware.authMidle,middleware.adminacess,productController.taskApproved);
 router.get("/all/category",middleware.authMidle,middleware.adminacess,productController.allCategory);
-router.get("/alls/category",productController.allCategory);
 router.post("/create/category",middleware.authMidle,middleware.adminacess,productController.categoryCreated);
 // userType: 3 api (inventry);
 
