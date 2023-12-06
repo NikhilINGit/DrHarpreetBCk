@@ -43,6 +43,7 @@ router.get("/allTask", middleware.authMidle,middleware.adminacess,productControl
 router.post("/deleteTask", middleware.authMidle,middleware.adminacess,productController.deleteTask);
 router.post("/approvedTask", middleware.authMidle,middleware.adminacess,productController.taskApproved);
 router.get("/all/category",middleware.authMidle,middleware.adminacess,productController.allCategory);
+router.get("/alls/category",productController.allCategory);
 router.post("/create/category",middleware.authMidle,middleware.adminacess,productController.categoryCreated);
 // userType: 3 api (inventry);
 
@@ -60,7 +61,8 @@ router.post("/account/taskApproved",middleware.authMidle,middleware.expectAdminA
 router.get("/inventory/all/category",middleware.authMidle,middleware.expectAdminAccess,productController.allCategory);
 router.post("/create/category",middleware.authMidle,middleware.expectAdminAccess,productController.categoryCreated);
 // router.post("/inventory/all/category")
-router.get("/invetry/all/product",middleware.authMidle,middleware.expectAdminAccess,productController.productByCategory)
+router.get("/invetry/all/product",middleware.authMidle,middleware.expectAdminAccess,productController.productByCategory);
+router.post("/get/email",middleware.authMidle,middleware.expectAdminAccess,productController.getEmail)
 // router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
 // router.get("/account/allTask",productController.getTaskAccount);
 // router.post("/buyProduct",productController.buyProduct);

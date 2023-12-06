@@ -11,17 +11,21 @@ const venderSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
     },
-    products: [
+    category: [
       {
         name: { type: String },
-        price: { type: Number },
-        description: {
-          type: String,
-        },
       },
     ],softDelete:{
         type:Boolean,default:false
-      },
+      },otp:{
+type:String
+      },completeinfo:{
+        type:Boolean,default:false
+      },address:{
+        type:String
+      },phoneNum:{
+        type:Number
+      }
   },
   { timestamps: true }
 );

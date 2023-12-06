@@ -24,6 +24,7 @@ exports.allVenderData=allVenderData;
 exports.categoryCreated=categoryCreated;
 exports.allCategory=allCategory;
 exports.productByCategory=productByCategory;
+exports.getEmail=getEmail;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -35,6 +36,27 @@ async function getAllTask(req, res) {
       select:{"productName":1},
   });
     return response.userResponse(res, "All Products", getAllProduct);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function getEmail(req,res){
+  try {
+    const email=req.body.email;
+    console.log("email are : ",email);
+    const checkvender = await vender.findOne({email:email});
+    if (checkvender){
+      if(checkvender.completeinfo===true){
+        return response.negativeResponce(res, `already vender created with this email`, vender);
+      }else{
+        return response.negativeResponce(res, `already mail send`, vender);
+      }
+    }else{
+          var venderObj=new vender({});
+          venderObj.email=email;
+          venderObj.createdBy=req.user._id
+    }
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
