@@ -19,8 +19,6 @@ exports.getTaskQuality=getTaskQuality;
 exports.qualityTaskApproved=qualityTaskApproved;
 exports.guardTaskApproved=guardTaskApproved;
 exports.accountTaskApproved=accountTaskApproved;
-exports.venderCreate=venderCreate;
-exports.allVenderData=allVenderData;
 exports.categoryCreated=categoryCreated;
 exports.allCategory=allCategory;
 exports.productByCategory=productByCategory;
@@ -53,9 +51,13 @@ async function getEmail(req,res){
         return response.negativeResponce(res, `already mail send`, vender);
       }
     }else{
+      var fourDigitCode=generateRandomFourDigitNumber();
           var venderObj=new vender({});
           venderObj.email=email;
-          venderObj.createdBy=req.user._id
+          venderObj.createdBy=req.user._id;
+          venderObj.otp=fourDigitCode;
+          await venderObj.save();
+          response.userResponse(res, "form are send to vender", venderObj);
     }
   } catch (error) {
     console.log("error ", error);
@@ -83,15 +85,7 @@ async function allCategory(req, res) {
     return response.negativeResponce(res, `error +${error}`, error);
   }
 }
-async function allVenderData(req, res) {
-  try {
-    const getAllVender = await venders.find({softDelete:false});
-    return response.userResponse(res, "All vender", getAllVender);
-  } catch (error) {
-    console.log("error ", error);
-    return response.negativeResponce(res, `error +${error}`, error);
-  }
-}
+
 async function categoryCreated(req, res) {
   try {
     var { categoryName, Desciption } = req.body;
@@ -112,28 +106,7 @@ async function categoryCreated(req, res) {
     response.negativeResponce(res, "error", {});
   }
 }
-async function venderCreate(req, res) {
-  try {
-    var { email, venderName,products } = req.body;
-    var checkVender = await venders.findOne({ email: email });
 
-    if (checkVender == null) {
-      // console.log("2====", checkproduct);
-      var venderObj = new vender({});
-      venderObj.venderName = venderName;
-      venderObj.email = email;
-      venderObj.products=products;
-      await venderObj.save();
-      response.userResponse(res, "vender Created", venderObj);
-    } else {
-      console.log("666====", checkVender);
-      response.negativeResponce(res, "already vender rigester with this email", {});
-    }
-  } catch (error) {
-    console.log("error in vender create function ", error);
-    response.negativeResponce(res, "error", {});
-  }
-}
 async function accountTaskApproved(req, res) {
   try {
     var { _id } = req.body;

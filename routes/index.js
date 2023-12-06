@@ -63,11 +63,4 @@ router.post("/create/category",middleware.authMidle,middleware.expectAdminAccess
 // router.post("/inventory/all/category")
 router.get("/invetry/all/product",middleware.authMidle,middleware.expectAdminAccess,productController.productByCategory);
 router.post("/get/email",middleware.authMidle,middleware.expectAdminAccess,productController.getEmail)
-// router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
-// router.get("/account/allTask",productController.getTaskAccount);
-// router.post("/buyProduct",productController.buyProduct);
-
-// vender routes
-router.post("/vender/create",middleware.authMidle,middleware.expectAdminAccess,productController.venderCreate);
-router.get("/vender/getAll",middleware.authMidle,middleware.expectAdminAccess,productController.allVenderData);
 module.exports = router;
