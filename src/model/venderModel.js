@@ -14,6 +14,8 @@ const venderSchema = new mongoose.Schema(
     category: [
       {
         // name: { type: String },
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "catery"
       },
     ],softDelete:{
         type:Boolean,default:false

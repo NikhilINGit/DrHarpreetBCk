@@ -41,7 +41,7 @@ const venderBuyProductEmail = (email,value,name,descrip,ser_no,id) => {
           <p>Quantity: ${value}</p>
           <p>Requirements: ${descrip}</p>
           <p>If you are able to deliver, please click the button below:</p>
-          <a href="http://localhost:3000/buy/product/vender/${ser_no}/${id}" style="display: inline-block; font-size: 16px; color: #ffffff; background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Click Here</a>
+          <a href="http://localhost:3001/vendor/product/access/${ser_no}/${id}" style="display: inline-block; font-size: 16px; color: #ffffff; background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Click Here</a>
           <p>Regards,<br>Team ASm</p>
         `,
       });

@@ -26,6 +26,8 @@ type:Number
     },venders: [
         {
           // name: { type: String },
+          type: mongoose.Schema.Types.ObjectId,
+        ref: "venderData"
         },
       ],approvedByQualityChaker:{
         type:Boolean,default:false

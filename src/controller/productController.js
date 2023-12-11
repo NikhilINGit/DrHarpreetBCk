@@ -29,6 +29,7 @@ exports.postFormData=postFormData;
 exports.getAllVender=getAllVender;
 exports.deleteVender=deleteVender;
 exports.VenderProductAccess=VenderProductAccess;
+exports.allvendersbytask=allvendersbytask;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -240,13 +241,31 @@ async function TaskByUser(req, res) {
 }
 async function VenderProductAccess(req, res) {
   try {
-    var ser_no = req.params.ser_no;
-    var id = req.params.id;
-    console.log("function YOu can buy")
-    var taskdata=await task.find({task_no:ser_no});
-    taskdata.venders=id;
-    taskdata.save();
-    return response.userResponse(res, " Products", {ok});
+    var ser_no = req.query.ser_no;
+    var id = req.query.id;
+    var taskdata=await task.findOne({task_no:ser_no});
+    if(taskdata){
+      if (taskdata.venders.includes(id)) {
+        return response.negativeResponce(res, `already submited your responce`,{});
+      }else{
+        taskdata.venders.push(id);
+        await taskdata.save();
+        return response.userResponse(res, " Products", {});
+      }
+    }
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function allvendersbytask(req, res) {
+  try {
+    var ser_no = req.query.ser_no;
+    // var id = req.query.id;
+    var taskdata=await task.findOne({task_no:ser_no});
+    if(taskdata){
+   console.log("------------------)-)-)-)-)-)-)-)",taskdata)
+    }
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
