@@ -2,9 +2,11 @@ const Product = require("../model/productModel");
 const response = require("../helper/responceHelper");
 const TaskModel=require("../model/taskModel");
 const task = require("../model/taskModel");
-const venders=require("../model/venderModel");
+// const venders=require("../model/venderModel");
 const vender = require("../model/venderModel");
 const category=require("../model/categoryModel");
+const mailhelper = require("../helper/mailsendHelper");
+// const vender = require("../model/venderModel");
 exports.allProducts = allProducts;
 exports.createProduct = createProduct;
 exports.deleteProduct = deleteProduct;
@@ -23,6 +25,9 @@ exports.categoryCreated=categoryCreated;
 exports.allCategory=allCategory;
 exports.productByCategory=productByCategory;
 exports.getEmail=getEmail;
+exports.postFormData=postFormData;
+exports.getAllVender=getAllVender;
+exports.deleteVender=deleteVender;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -42,7 +47,6 @@ async function getAllTask(req, res) {
 async function getEmail(req,res){
   try {
     const email=req.body.email;
-    console.log("email are : ",email);
     const checkvender = await vender.findOne({email:email});
     if (checkvender){
       if(checkvender.completeinfo===true){
@@ -57,11 +61,38 @@ async function getEmail(req,res){
           venderObj.createdBy=req.user._id;
           venderObj.otp=fourDigitCode;
           await venderObj.save();
+           mailhelper.venderRegistration(email,fourDigitCode);
           response.userResponse(res, " email store & form are send to vender", venderObj);
     }
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function postFormData(req,res){
+  try {
+    var{email,venderName,category,val,completeinfo,address,phoneNum}=req.body;
+    var venderObj=await vender.findOne({email:email});
+    if(venderObj){
+      if(venderObj.otp==val){
+        venderObj.email=email;
+        venderObj.venderName=venderName;
+        venderObj.category=category;
+        venderObj.otp=null;
+        venderObj.address=address;
+        venderObj.phoneNum=phoneNum;
+        venderObj.completeinfo=completeinfo;
+        await venderObj.save();
+        response.userResponse(res, " vender are created", venderObj);
+      }else{
+        return response.negativeResponce(res, `already vender register plz reconnect to company`, {});
+      }
+    }else{
+      return response.negativeResponce(res, `plz provide same vender email`, {});
+    }
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error)
   }
 }
 async function productByCategory(req, res) {
@@ -70,7 +101,19 @@ async function productByCategory(req, res) {
       path:'category',
       select:{"categoryName":1},
   });
+  var cat = await category.findById(req.query.id);
+  var venders=await vender.find({category:cat.categoryName});
     return response.userResponse(res, "All Products of This Category", getAllProduct);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function getAllVender(req, res) {
+  try {
+    console.log("---------==========--------------******-------------")
+    const getAllvender = await vender.find({otp:null});
+    return response.userResponse(res, "All venders", getAllvender);
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
@@ -225,6 +268,16 @@ async function deleteTask(req, res) {
     response.userResponse(res, "task are deleted", {});
   } catch (error) {
     console.log("error in delete task Function function ", error);
+    response.negativeResponce(res, "error", {});
+  }
+}
+async function deleteVender(req, res) {
+  try {
+    var { _id } = req.body;
+    var deleteP = await vender.findByIdAndDelete(_id);
+    response.userResponse(res, "Product are deleted", {});
+  } catch (error) {
+    console.log("error in delete Product Function function ", error);
     response.negativeResponce(res, "error", {});
   }
 }

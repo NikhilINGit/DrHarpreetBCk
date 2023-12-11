@@ -13,14 +13,14 @@ const venderSchema = new mongoose.Schema(
     },
     category: [
       {
-        name: { type: String },
+        // name: { type: String },
       },
     ],softDelete:{
         type:Boolean,default:false
       },otp:{
-type:String
+        type:Number
       },completeinfo:{
-        type:Boolean,default:false
+        type:String,default:false
       },address:{
         type:String
       },phoneNum:{

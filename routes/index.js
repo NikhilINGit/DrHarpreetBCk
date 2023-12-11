@@ -60,7 +60,10 @@ router.post("/guard/taskApproved",middleware.authMidle,middleware.expectAdminAcc
 router.post("/account/taskApproved",middleware.authMidle,middleware.expectAdminAccess,productController.accountTaskApproved);
 router.get("/inventory/all/category",middleware.authMidle,middleware.expectAdminAccess,productController.allCategory);
 router.post("/create/category",middleware.authMidle,middleware.expectAdminAccess,productController.categoryCreated);
-// router.post("/inventory/all/category")
 router.get("/invetry/all/product",middleware.authMidle,middleware.expectAdminAccess,productController.productByCategory);
-router.post("/get/email",middleware.authMidle,middleware.expectAdminAccess,productController.getEmail)
+router.post("/post/email/form",productController.postFormData);
+router.post("/get/email",middleware.authMidle,middleware.expectAdminAccess,productController.getEmail);  
+// router.get("/allvenders",productController.getAllVender);
+router.get("/allvender",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVender); 
+router.post("/deleteVender",middleware.authMidle,middleware.adminacess, productController.deleteVender);
 module.exports = router;
