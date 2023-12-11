@@ -261,11 +261,15 @@ async function VenderProductAccess(req, res) {
 async function allvendersbytask(req, res) {
   try {
     var ser_no = req.query.ser_no;
-    // var id = req.query.id;
-    var taskdata=await task.findOne({task_no:ser_no});
+    var taskdata=await task.findOne({task_no:ser_no}).populate({
+      path:'venders',
+      select:{"venderName":1,"phoneNum":1,"address":1,"completeinfo":1,"category":1}}
+    );
     if(taskdata){
-   console.log("------------------)-)-)-)-)-)-)-)",taskdata)
-    }
+  return response.userResponse(res, " Products", taskdata.venders);    
+}else{
+  return response.negativeResponce(res, `may be someone delete this task`, error);
+}
   } catch (error) {
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
