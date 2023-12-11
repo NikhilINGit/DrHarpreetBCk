@@ -66,4 +66,5 @@ router.post("/get/email",middleware.authMidle,middleware.expectAdminAccess,produ
 // router.get("/allvenders",productController.getAllVender);
 router.get("/allvender",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVender); 
 router.post("/deleteVender",middleware.authMidle,middleware.adminacess, productController.deleteVender);
+router.get("/buy/product/vender", productController.VenderProductAccess);
 module.exports = router;

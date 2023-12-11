@@ -28,17 +28,24 @@ const venderRegistration = (email,value) => {
         
         registation link are `,
     })
-    console.log("2------------------->>>>>>>>",EMAIL,"-----------",PASSWORD)
 }
-const venderBuyProductEmail = (email,value,name) => {
-    // var link=`http://localhost:3001/vendor/registration/form/${value}`
+const venderBuyProductEmail = (email,value,name,descrip,ser_no,id) => {
+    var link=`http://localhost:3001/vendor/registration/form/${value}`
     nodeMailer.sendMail({
         to: email,
         from: EMAIL,
-        subject: 'product buy requirenment',
-        text: `Hello ${name},  \n\n our company required these material.\n \n Quantity :${value}   \n\n Regards,\nTeam ASm`,
-    })
-    console.log("-------5------------------>>>>>",EMAIL,"-----------)))))))",PASSWORD)
+        subject: 'product buy requirement',
+        html: `
+          <p>Hello ${name},</p>
+          <p>Our company requires these materials.</p>
+          <p>Quantity: ${value}</p>
+          <p>Requirements: ${descrip}</p>
+          <p>If you are able to deliver, please click the button below:</p>
+          <a href="http://localhost:3000/buy/product/vender/${ser_no}/${id}" style="display: inline-block; font-size: 16px; color: #ffffff; background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Click Here</a>
+          <p>Regards,<br>Team ASm</p>
+        `,
+      });
+   
 }
 
 module.exports = {

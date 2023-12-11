@@ -28,6 +28,7 @@ exports.getEmail=getEmail;
 exports.postFormData=postFormData;
 exports.getAllVender=getAllVender;
 exports.deleteVender=deleteVender;
+exports.VenderProductAccess=VenderProductAccess;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -111,7 +112,6 @@ async function productByCategory(req, res) {
 }
 async function getAllVender(req, res) {
   try {
-    console.log("---------==========--------------******-------------")
     const getAllvender = await vender.find({otp:null});
     return response.userResponse(res, "All venders", getAllvender);
   } catch (error) {
@@ -238,12 +238,30 @@ async function TaskByUser(req, res) {
     return response.negativeResponce(res, `error +${error}`, error);
   }
 }
+async function VenderProductAccess(req, res) {
+  try {
+    var ser_no = req.params.ser_no;
+    var id = req.params.id;
+    console.log("function YOu can buy")
+    var taskdata=await task.find({task_no:ser_no});
+    taskdata.venders=id;
+    taskdata.save();
+    return response.userResponse(res, " Products", {ok});
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
 async function buyProduct(req,res){
   try {
-    var { product_id ,quantity} = req.body;
+    var { product_id ,quantity,categoryid,description} = req.body;
+    // console.log("body ",product_id ,quantity,categoryid)
     var ser_no= generateRandomFourDigitNumber();
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
     const product = await Product.findById(product_id).select({price:1});
+    const Cat=await category.findById(categoryid);
+    const venders=await vender.find({category:Cat.categoryName});
+    // console.log("venders : ",venders,"category ",Cat.categoryName)
     const productPrice = product.price;
     const taskPrice=productPrice*quantity;
     var newTask= new TaskModel({});
@@ -253,9 +271,16 @@ async function buyProduct(req,res){
       newTask.quantity=quantity;
       newTask.userReq=req.user._id;
       newTask.productID=product_id;
+      newTask.description=description;
+      // mailhelper.venderBuyProductEmail(venders.)
+    await venders.forEach(vendor => {
+        // console.log(vendor.email);
+        mailhelper.venderBuyProductEmail(vendor.email,quantity,vendor.venderName,description,ser_no,vendor._id)
+      });
       await newTask.save();
       response.userResponse(res, "Task Create", newTask);
   } catch (error) {
+    console.log("---error are in buy product controller function  ::---  ",error);
     response.negativeResponce(res, "error", {});
   }
 }
@@ -297,7 +322,7 @@ async function createProduct(req, res) {
     var checkproduct = await Product.findOne({ productName: productName });
 
     if (checkproduct == null) {
-      console.log("2====", checkproduct);
+      // console.log("2====", checkproduct);
       var prodObj = new Product({});
       prodObj.productName = productName;
       prodObj.price = price;

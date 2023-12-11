@@ -23,10 +23,16 @@ type:Number
         default:false
     },approvedByAdmin:{
         type:Boolean,default:false
-    },approvedByQualityChaker:{
+    },venders: [
+        {
+          // name: { type: String },
+        },
+      ],approvedByQualityChaker:{
         type:Boolean,default:false
     },approvedByGuird:{
         type:Boolean,default:false
+    },description:{
+        type:String
     }
     ,approvedByAccount:{
         type:Boolean,default:false
