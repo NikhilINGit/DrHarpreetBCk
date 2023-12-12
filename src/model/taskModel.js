@@ -38,6 +38,8 @@ type:Number
     }
     ,approvedByAccount:{
         type:Boolean,default:false
+    },selectedVender:{
+        type:String
     }
 
 },{timestamps:true});

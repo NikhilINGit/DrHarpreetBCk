@@ -173,8 +173,8 @@ async function guardTaskApproved(req, res) {
 }
 async function qualityTaskApproved(req, res) {
   try {
-    var { _id } = req.body;
-    var approved = await task.findByIdAndUpdate(_id, { approvedByQualityChaker: true });;
+    var { _id ,vender} = req.body;
+    var approved = await task.findByIdAndUpdate(_id, { approvedByQualityChaker: true,selectedVender:vender });;
     response.userResponse(res, "aapproved by byQuality", approved);
   } catch (error) {
     console.log("error in approved functionalityFunction function ", error);
