@@ -40,7 +40,7 @@ type:Number
         type:Boolean,default:false
     },selectedVender:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "venderData"
+        ref: "venderData",default:null
     }
 
 },{timestamps:true});
