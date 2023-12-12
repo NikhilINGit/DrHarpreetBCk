@@ -39,7 +39,8 @@ type:Number
     ,approvedByAccount:{
         type:Boolean,default:false
     },selectedVender:{
-        type:String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "venderData"
     }
 
 },{timestamps:true});
