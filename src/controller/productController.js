@@ -278,7 +278,7 @@ async function allvendersbytask(req, res) {
 async function buyProduct(req,res){
   try {
     var { product_id ,quantity,categoryid,description} = req.body;
-    console.log("body ",product_id ,quantity,categoryid)
+    // console.log("body ",product_id ,quantity)
     var ser_no= generateRandomFourDigitNumber();
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
     const product = await Product.findById(product_id).select({price:1,category:1});
