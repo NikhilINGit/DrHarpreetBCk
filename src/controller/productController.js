@@ -270,7 +270,7 @@ async function allvendersbytask(req, res) {
       select:{"venderName":1,"phoneNum":1,"address":1,"completeinfo":1,"category":1}}
     );
     if(taskdata){
-  return response.userResponse(res, " Products", taskdata.venders);    
+  return response.userResponse(res, " Products", taskdata);    
 }else{
   return response.negativeResponce(res, `may be someone delete this task`, error);
 }
@@ -285,7 +285,7 @@ async function buyProduct(req,res){
     // console.log("body ",product_id ,quantity)
     var ser_no= generateRandomFourDigitNumber();
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
-    const product = await Product.findById(product_id).select({price:1,category:1});
+    const product = await Product.findById(product_id).select({price:1,category:1,productName:1});
     const Cat=await category.findById(product.category);
     // console.log("venders : ","category ",Cat)
     const venders=await vender.find({category:Cat.categoryName});
@@ -302,7 +302,7 @@ async function buyProduct(req,res){
       // mailhelper.venderBuyProductEmail(venders.)
     await venders.forEach(vendor => {
         // console.log(vendor.email);
-        mailhelper.venderBuyProductEmail(vendor.email,quantity,vendor.venderName,description,ser_no,vendor._id)
+        mailhelper.venderBuyProductEmail(vendor.email,quantity,vendor.venderName,description,ser_no,vendor._id,product.productName)
       });
       await newTask.save();
       response.userResponse(res, "Task Create", newTask);
