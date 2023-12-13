@@ -241,17 +241,21 @@ async function TaskByUser(req, res) {
 }
 async function VenderProductAccess(req, res) {
   try {
-    var ser_no = req.query.ser_no;
-    var id = req.query.id;
+  var {price,date,description,ser_no,id}=req.body;
     var taskdata=await task.findOne({task_no:ser_no});
-    if(taskdata){
-      if (taskdata.venders.includes(id)) {
-        return response.negativeResponce(res, `already submited your responce`,{});
-      }else{
-        taskdata.venders.push(id);
+    if (taskdata) {
+      const match = taskdata.venders.find(vendor =>
+        {
+      return  vendor.ven_id == id}); 
+      if (match) {
+        return response.negativeResponce(res, `already submitted your response`, {});
+      } else {
+        taskdata.venders.push({ ven_id:id, price, send_Prod_date:date,Prod_desc: description });
         await taskdata.save();
-        return response.userResponse(res, " Products", {});
+        return response.userResponse(res, "Products ", {});
       }
+    } else {
+      return response.negativeResponce(res, "plz connect witch company ", {});
     }
   } catch (error) {
     console.log("error ", error);
@@ -283,7 +287,7 @@ async function buyProduct(req,res){
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
     const product = await Product.findById(product_id).select({price:1,category:1});
     const Cat=await category.findById(product.category);
-    console.log("venders : ","category ",Cat)
+    // console.log("venders : ","category ",Cat)
     const venders=await vender.find({category:Cat.categoryName});
     const productPrice = product.price;
     const taskPrice=productPrice*quantity;

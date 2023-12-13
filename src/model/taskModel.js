@@ -26,8 +26,9 @@ type:Number
     },venders: [
         {
           // name: { type: String },
-          type: mongoose.Schema.Types.ObjectId,
-        ref: "venderData"
+         ven_id:{ type: String},price:{type:Number},send_Prod_date:{type:Date},Prod_desc:{
+                type:String
+            }
         },
       ],approvedByQualityChaker:{
         type:Boolean,default:false
