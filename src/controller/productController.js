@@ -270,7 +270,7 @@ async function allvendersbytask(req, res) {
       select:{"venderName":1,"phoneNum":1,"address":1,"completeinfo":1,"category":1}}
     );
     if(taskdata){
-  return response.userResponse(res, " Products", taskdata);    
+  return response.userResponse(res, " Products", taskdata.venders);    
 }else{
   return response.negativeResponce(res, `may be someone delete this task`, error);
 }

@@ -26,7 +26,8 @@ type:Number
     },venders: [
         {
           // name: { type: String },
-         ven_id:{ type: String},price:{type:Number},send_Prod_date:{type:Date},Prod_desc:{
+         ven_id:{ type: mongoose.Schema.Types.ObjectId,
+            ref: "venderData"},price:{type:Number},send_Prod_date:{type:Date},Prod_desc:{
                 type:String
             }
         },
