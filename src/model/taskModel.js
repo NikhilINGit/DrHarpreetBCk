@@ -29,6 +29,8 @@ type:Number
          ven_id:{ type: mongoose.Schema.Types.ObjectId,
             ref: "venderData"},price:{type:Number},send_Prod_date:{type:Date},Prod_desc:{
                 type:String
+            },ven_info:{
+                type:Object
             }
         },
       ],approvedByQualityChaker:{
