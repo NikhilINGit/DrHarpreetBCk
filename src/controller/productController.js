@@ -363,7 +363,7 @@ async function buyProductPerticularvender(req,res){
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
     const product = await Product.findById(product_id).select({price:1,category:1,productName:1});
     const Cat=await category.findById(product.category);
-    console.log("venders : ","category ",Cat)
+    // console.log("venders : ","category ",Cat)
     const venders=await vender.find({category:Cat.categoryName});
     const productPrice = product.price;
     var name=product.productName;
@@ -379,7 +379,7 @@ async function buyProductPerticularvender(req,res){
       newTask.description=description;
       // mailhelper.venderBuyProductEmail(venders.)
     await venders.forEach(vendor => {
-        if (selectedVendorsId.includes(vendor._id)) {
+        if (selectedVendorsId.includes(vendor._id.toString())) {
     mailhelper.venderBuyProductEmail(vendor.email, quantity, vendor.venderName, description, ser_no, vendor._id, name);
   }
       });
