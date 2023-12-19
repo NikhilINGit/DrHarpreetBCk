@@ -52,6 +52,7 @@ router.get("/inventry/allProduct",middleware.authMidle,middleware.expectAdminAcc
 router.get("/inventry/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.TaskByUser);
 router.post("/inventry/create/product",middleware.authMidle,middleware.expectAdminAccess, productController.createProduct);
 router.post("/buyProduct", middleware.authMidle,middleware.expectAdminAccess,productController.buyProduct);
+router.post("/buyProduct/perticular", middleware.authMidle,middleware.expectAdminAccess,productController.buyProductPerticularvender);
 router.get("/account/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskAccount);
 router.get("/guard/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskGuard);
 router.get("/quality/allTask",middleware.authMidle,middleware.expectAdminAccess,productController.getTaskQuality);
@@ -69,5 +70,6 @@ router.post("/deleteVender",middleware.authMidle,middleware.adminacess, productC
 router.post("/buy/product/vender", productController.VenderProductAccess);
 router.get("/allvender/task",middleware.authMidle,middleware.expectAdminAccess,productController.allvendersbytask);
 router.get("/allTask/quality", middleware.authMidle,middleware.expectAdminAccess,productController.getAllTask);
-router.get("/get/allvender/Quality",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVenderByCategory)
+router.get("/get/allvender/Quality",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVenderByCategory);
+
 module.exports = router;
