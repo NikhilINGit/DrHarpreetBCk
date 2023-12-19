@@ -30,6 +30,7 @@ exports.getAllVender=getAllVender;
 exports.deleteVender=deleteVender;
 exports.VenderProductAccess=VenderProductAccess;
 exports.allvendersbytask=allvendersbytask;
+exports.getAllVenderByCategory=getAllVenderByCategory;
 // four digit generate num function 
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
@@ -113,6 +114,7 @@ async function productByCategory(req, res) {
 }
 async function getAllVender(req, res) {
   try {
+    console.log("get all vender api : ")
     const getAllvender = await vender.find({otp:null});
     return response.userResponse(res, "All venders", getAllvender);
   } catch (error) {
@@ -265,6 +267,20 @@ async function VenderProductAccess(req, res) {
     return response.negativeResponce(res, `error +${error}`, error);
   }
 }
+async function getAllVenderByCategory(req, res) {
+  try {
+    var id = req.query.product_id;
+    var categoryName=await Product.findById(id).populate({path:'category',select:{"categoryName":1}});
+    if(categoryName){
+      var venders= await vender.find({ category: { $in: categoryName.category.categoryName } })
+      return response.userResponse(res, " all vrnders data with tis category : -", venders);
+    }
+    // return response.negativeResponce(res, `error +${error}`, error);
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
 async function allvendersbytask(req, res) {
   try {
     var ser_no = req.query.ser_no;
@@ -293,6 +309,7 @@ async function buyProduct(req,res){
     // console.log("venders : ","category ",Cat)
     const venders=await vender.find({category:Cat.categoryName});
     const productPrice = product.price;
+    var name=product.productName;
     const taskPrice=productPrice*quantity;
     var newTask= new TaskModel({});
       ser_no=ser_no+0.101;
@@ -305,7 +322,7 @@ async function buyProduct(req,res){
       // mailhelper.venderBuyProductEmail(venders.)
     await venders.forEach(vendor => {
         // console.log(vendor.email);
-        mailhelper.venderBuyProductEmail(vendor.email,quantity,vendor.venderName,description,ser_no,vendor._id,product.productName)
+        mailhelper.venderBuyProductEmail(vendor.email,quantity,vendor.venderName,description,ser_no,vendor._id,name)
       });
       await newTask.save();
       response.userResponse(res, "Task Create", newTask);

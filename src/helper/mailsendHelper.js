@@ -29,7 +29,7 @@ const venderRegistration = (email,value) => {
         registation link are `,
     })
 }
-const venderBuyProductEmail = (email,value,name,descrip,ser_no,id) => {
+const venderBuyProductEmail = (email,value,name,descrip,ser_no,id,prName) => {
     var link=`http://localhost:3001/vendor/registration/form/${value}`
     nodeMailer.sendMail({
         to: email,
@@ -37,7 +37,7 @@ const venderBuyProductEmail = (email,value,name,descrip,ser_no,id) => {
         subject: 'product buy requirement',
         html: `
           <p>Hello ${name},</p>
-          <p>Our company requires these materials.</p>
+          <p>Our company requires ${prName}materials.</p>
           <p>Quantity: ${value}</p>
           <p>Requirements: ${descrip}</p>
           <p>If you are able to deliver, please click the button below:</p>

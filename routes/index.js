@@ -69,4 +69,5 @@ router.post("/deleteVender",middleware.authMidle,middleware.adminacess, productC
 router.post("/buy/product/vender", productController.VenderProductAccess);
 router.get("/allvender/task",middleware.authMidle,middleware.expectAdminAccess,productController.allvendersbytask);
 router.get("/allTask/quality", middleware.authMidle,middleware.expectAdminAccess,productController.getAllTask);
+router.get("/get/allvender/Quality",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVenderByCategory)
 module.exports = router;
