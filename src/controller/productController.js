@@ -33,9 +33,31 @@ exports.allvendersbytask=allvendersbytask;
 exports.getAllVenderByCategory=getAllVenderByCategory;
 exports.buyProductPerticularvender=buyProductPerticularvender;
 // four digit generate num function 
+ async function generateUniqueSerialNumber() {
+//   let ser_no;
+//   do {
+//     ser_no = generateRandomFourDigitNumber();
+//     console.log("333 function call : ",ser_no)
+//   } while (TaskModel.exists({ serial_no: ser_no, softDelete: false }));
+//   return ser_no;
+// }
+const maxAttempts = 100; // Maximumerial number yo loop 100 bar chalahg abss
+
+  for (let i = 0; i < maxAttempts; i++) {
+    let ser_no = generateRandomFourDigitNumber();
+    const existingTask = await TaskModel.findOne({ task_no: ser_no, softDelete: false });
+    if (!existingTask) {
+      return ser_no;
+    }
+  }
+  return 100;
+}
 function generateRandomFourDigitNumber() {
   return Math.floor(1000 + Math.random() * 9000);
 }
+// function generateRandomFourDigitNumber() {
+//   return Math.floor(1000 + Math.random() * 9000);
+// }
 async function getAllTask(req, res) {
   try {
     const getAllProduct = await task.find({softDelete:false}).populate({
@@ -303,7 +325,7 @@ async function buyProduct(req,res){
   try {
     var { product_id ,quantity,categoryid,description} = req.body;
     // console.log("body ",product_id ,quantity)
-    var ser_no= generateRandomFourDigitNumber();
+    var ser_no= await generateUniqueSerialNumber();
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
     const product = await Product.findById(product_id).select({price:1,category:1,productName:1});
     const Cat=await category.findById(product.category);
@@ -313,7 +335,7 @@ async function buyProduct(req,res){
     var name=product.productName;
     const taskPrice=productPrice*quantity;
     var newTask= new TaskModel({});
-      ser_no=ser_no+0.101;
+      // ser_no=ser_no;
       newTask.task_no=ser_no;
       newTask.price=taskPrice;
       newTask.quantity=quantity;
@@ -326,7 +348,7 @@ async function buyProduct(req,res){
         mailhelper.venderBuyProductEmail(vendor.email,quantity,vendor.venderName,description,ser_no,vendor._id,name)
       });
       await newTask.save();
-      response.userResponse(res, "Task Create", newTask);
+      response.userResponse(res, "send req  ", newTask);
   } catch (error) {
     console.log("---error are in buy product controller function  ::---  ",error);
     response.negativeResponce(res, "error", {});
@@ -334,19 +356,21 @@ async function buyProduct(req,res){
 }
 async function buyProductPerticularvender(req,res){
   try {
+   
     var { product_id ,quantity,categoryid,description,selectedVendorsId} = req.body;
-    // console.log("body ",product_id ,quantity)
-    var ser_no= generateRandomFourDigitNumber();
+    var ser_no=await generateUniqueSerialNumber();
+    // console.log("--353")
     const tsknum=await TaskModel.find({ serial_no:ser_no,softDelete:false});
     const product = await Product.findById(product_id).select({price:1,category:1,productName:1});
     const Cat=await category.findById(product.category);
-    // console.log("venders : ","category ",Cat)
+    console.log("venders : ","category ",Cat)
     const venders=await vender.find({category:Cat.categoryName});
     const productPrice = product.price;
     var name=product.productName;
     const taskPrice=productPrice*quantity;
+    // const taskPrice=productPrice*quantity;
     var newTask= new TaskModel({});
-      ser_no=ser_no+0.101;
+      // ser_no=ser_no;
       newTask.task_no=ser_no;
       newTask.price=taskPrice;
       newTask.quantity=quantity;
@@ -355,9 +379,9 @@ async function buyProductPerticularvender(req,res){
       newTask.description=description;
       // mailhelper.venderBuyProductEmail(venders.)
     await venders.forEach(vendor => {
-      if (selectedVendorsId.includes(vendor._id)) {
-        mailhelper.venderBuyProductEmail(vendor.email, quantity, vendor.venderName, description, ser_no, vendor._id, name);
-      }
+        if (selectedVendorsId.includes(vendor._id)) {
+    mailhelper.venderBuyProductEmail(vendor.email, quantity, vendor.venderName, description, ser_no, vendor._id, name);
+  }
       });
       await newTask.save();
       response.userResponse(res, "Task Create", newTask);
