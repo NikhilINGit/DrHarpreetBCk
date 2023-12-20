@@ -32,6 +32,7 @@ exports.VenderProductAccess=VenderProductAccess;
 exports.allvendersbytask=allvendersbytask;
 exports.getAllVenderByCategory=getAllVenderByCategory;
 exports.buyProductPerticularvender=buyProductPerticularvender;
+exports.venderDelete=venderDelete;
 // four digit generate num function 
  async function generateUniqueSerialNumber() {
 //   let ser_no;
@@ -198,8 +199,13 @@ async function guardTaskApproved(req, res) {
 }
 async function qualityTaskApproved(req, res) {
   try {
-    var { _id ,vender} = req.body;
-    var approved = await task.findByIdAndUpdate(_id, { approvedByQualityChaker: true,selectedVender:vender });;
+    var { _id ,venderid} = req.body;
+    // console.log("id and vender are : ",_id,"-------",venderid)
+    var approved = await task.findByIdAndUpdate(_id, { approvedByQualityChaker: true,selectedVender:venderid });
+    var taskQuantity=await task.findById(_id).select({"quantity":1,"task_no":1});
+    var venderEmail=await vender.findById(venderid).select({"email":1});
+    // console.log("-----")
+     mailhelper.selectvenderMail(venderEmail.email,taskQuantity.quantity,taskQuantity.task_no,venderid)
     response.userResponse(res, "aapproved by byQuality", approved);
   } catch (error) {
     console.log("error in approved functionalityFunction function ", error);
@@ -481,3 +487,25 @@ async function allProducts(req, res) {
   }
 }
 
+async function venderDelete(req,res){
+  try {
+    var{_id,venderid}=req.body;
+    var deleteVender=await task.findById(_id);
+    // var taskdata=await task.findOne({task_no:ser_no});
+    // if (deleteVender) {
+      var venderE=await vender.findById(venderid).select({"email":1});
+      const indexToDelete = deleteVender.venders.findIndex(vendor => vendor.ven_id == venderid);
+      if (indexToDelete !== -1) {
+        taskdata.venders.splice(indexToDelete, 1); 
+      }
+      
+      taskdata.venders.push({ ven_id: id, price, send_Prod_date: date, Prod_desc: description, ven_info: data }); // Add the new vendor
+      await taskdata.save();
+      mailhelper.unselectvenderMail(venderE.email,deleteVender.quantity,deleteVender.task_no);
+      return response.userResponse(res, "vender removed for this task ", {});
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+ 
+  }
+}

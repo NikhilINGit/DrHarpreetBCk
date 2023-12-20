@@ -67,9 +67,12 @@ router.post("/get/email",middleware.authMidle,middleware.expectAdminAccess,produ
 // router.get("/allvenders",productController.getAllVender);
 router.get("/allvender",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVender); 
 router.post("/deleteVender",middleware.authMidle,middleware.adminacess, productController.deleteVender);
+router.post("/deleteVenders",middleware.authMidle,middleware.expectAdminAccess, productController.deleteVender);
 router.post("/buy/product/vender", productController.VenderProductAccess);
 router.get("/allvender/task",middleware.authMidle,middleware.expectAdminAccess,productController.allvendersbytask);
 router.get("/allTask/quality", middleware.authMidle,middleware.expectAdminAccess,productController.getAllTask);
 router.get("/get/allvender/Quality",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVenderByCategory);
+router.post("/quality/venderDelete",middleware.authMidle,middleware.expectAdminAccess,productController.venderDelete);
+
 
 module.exports = router;
