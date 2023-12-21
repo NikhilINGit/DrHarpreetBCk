@@ -81,7 +81,30 @@ const venderRegistration = (email,value) => {
         });
     
     }
+    const negomail = (email,price,ser_no,id) => {
+        // var link=`http://localhost:3001/vendor/registration/form/${value}`
+        nodeMailer.sendMail({
+            to: email,
+            from: EMAIL,
+            subject: 'company wnat to negotable with you ',
+            html: `
+            <p>Hello </p>
+            <p>your price of this product is very high  .</p>
+            <p>we are able to buy with this price : ${price} ;</p>
+            <p>if you are comfortable with this price  plz click here </p>
+            
+            <p>If you have any query regarding  your product fail then contect with company</p>
+            <a href="http://localhost:3001/vendor/negotaition/form/${ser_no}/${id}/${price}" style="display: inline-block; font-size: 16px; color: #ffffff;
+             background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Click Here</a>
+            <br/>
+            <p>otherwise ignore this email </p>
+            <br/>
+             <p>Regards,<br>Team ASm</p>
+            `,
+        });
+    
+    }
 
 module.exports = {
-    venderRegistration,venderBuyProductEmail,selectvenderMail,unselectvenderMail
+    venderRegistration,venderBuyProductEmail,selectvenderMail,unselectvenderMail,negomail
 }

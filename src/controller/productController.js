@@ -25,6 +25,7 @@ exports.categoryCreated=categoryCreated;
 exports.allCategory=allCategory;
 exports.productByCategory=productByCategory;
 exports.getEmail=getEmail;
+exports.venderNogo=venderNogo;
 exports.postFormData=postFormData;
 exports.getAllVender=getAllVender;
 exports.deleteVender=deleteVender;
@@ -33,6 +34,7 @@ exports.allvendersbytask=allvendersbytask;
 exports.getAllVenderByCategory=getAllVenderByCategory;
 exports.buyProductPerticularvender=buyProductPerticularvender;
 exports.venderDelete=venderDelete;
+exports.negotiable=negotiable;
 // four digit generate num function 
  async function generateUniqueSerialNumber() {
 //   let ser_no;
@@ -507,5 +509,44 @@ async function venderDelete(req,res){
     console.log("error ", error);
     return response.negativeResponce(res, `error +${error}`, error);
  
+  }
+}
+
+async function negotiable(req,res){
+  try {
+    var {   _id,
+      venderid,
+      negotiateValue}=req.body;
+      // var tassk=await task.findById(_id).select({"ser_no":1});
+      var vemn =await vender.findById(venderid).select({"email":1});
+      mailhelper.negomail(vemn.email,negotiateValue,_id,venderid);
+      return response.userResponse(res,"negotiable mail send",{});
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
+  }
+}
+async function venderNogo(req,res){
+  try {
+    var{price,
+      ser_no,
+      id,}=req.body;
+      var tes=await task.findOne
+      ({ser_no:ser_no});
+      if(tes){
+     
+        const venderToUpdate = tes.venders.find(vender =>vender.ven_id == id);
+        if (venderToUpdate) {
+          venderToUpdate.price = price;
+          await tes.save();
+          response.userResponse(res, " update to company", tes);
+        } else {
+          console.log('Vender not found'); 
+        }
+          response.userResponse(res, " vender are created", tes);
+        }else{return response.negativeResponce(res, `error something wrong plz contect to company`, error);}
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `error +${error}`, error);
   }
 }
