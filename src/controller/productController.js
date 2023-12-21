@@ -532,7 +532,7 @@ async function venderNogo(req,res){
       ser_no,
       id,}=req.body;
       var tes=await task.findOne
-      ({ser_no:ser_no});
+      ({_id:ser_no});
       if(tes){
      
         const venderToUpdate = tes.venders.find(vender =>vender.ven_id == id);
