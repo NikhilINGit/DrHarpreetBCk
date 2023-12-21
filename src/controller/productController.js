@@ -517,9 +517,9 @@ async function negotiable(req,res){
     var {   _id,
       venderid,
       negotiateValue}=req.body;
-      // var tassk=await task.findById(_id).select({"ser_no":1});
+      var tassk=await task.findById(_id).select({"ser_no":1});
       var vemn =await vender.findById(venderid).select({"email":1});
-      mailhelper.negomail(vemn.email,negotiateValue,_id,venderid);
+      mailhelper.negomail(vemn.email,negotiateValue,tassk.ser_no,venderid);
       return response.userResponse(res,"negotiable mail send",{});
   } catch (error) {
     console.log("error ", error);
@@ -532,7 +532,7 @@ async function venderNogo(req,res){
       ser_no,
       id,}=req.body;
       var tes=await task.findOne
-      ({_id:ser_no});
+      ({ser_no:ser_no});
       if(tes){
      
         const venderToUpdate = tes.venders.find(vender =>vender.ven_id == id);
