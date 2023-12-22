@@ -31,7 +31,7 @@ type:Number
                 type:String
             },ven_info:{
                 type:Object
-            }
+            },neg_price:{type:Number},
         },
       ],approvedByQualityChaker:{
         type:Boolean,default:false

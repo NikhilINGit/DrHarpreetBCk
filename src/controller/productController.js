@@ -498,11 +498,11 @@ async function venderDelete(req,res){
       var venderE=await vender.findById(venderid).select({"email":1});
       const indexToDelete = deleteVender.venders.findIndex(vendor => vendor.ven_id == venderid);
       if (indexToDelete !== -1) {
-        taskdata.venders.splice(indexToDelete, 1); 
+        deleteVender.venders.splice(indexToDelete, 1); 
       }
       
-      taskdata.venders.push({ ven_id: id, price, send_Prod_date: date, Prod_desc: description, ven_info: data }); // Add the new vendor
-      await taskdata.save();
+      // deleteVender.venders.push({ ven_id: id, price, send_Prod_date: date, Prod_desc: description, ven_info: data }); // Add the new vendor
+      await deleteVender.save();
       mailhelper.unselectvenderMail(venderE.email,deleteVender.quantity,deleteVender.task_no);
       return response.userResponse(res, "vender removed for this task ", {});
   } catch (error) {
@@ -517,9 +517,15 @@ async function negotiable(req,res){
     var {   _id,
       venderid,
       negotiateValue}=req.body;
-      var tassk=await task.findById(_id).select({"ser_no":1});
+      var updatedTask = await task.findByIdAndUpdate(
+        _id,
+        { $set: { "venders.$[elem].neg_price": negotiateValue } },
+        { arrayFilters: [{ "elem.ven_id": venderid }], new: true }
+      );
       var vemn =await vender.findById(venderid).select({"email":1});
-      mailhelper.negomail(vemn.email,negotiateValue,tassk.ser_no,venderid);
+
+      mailhelper.negomail(vemn.email,negotiateValue, updatedTask.ser_no,venderid);
+      await updatedTask.save();
       return response.userResponse(res,"negotiable mail send",{});
   } catch (error) {
     console.log("error ", error);
