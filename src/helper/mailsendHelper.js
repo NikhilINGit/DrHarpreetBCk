@@ -94,10 +94,14 @@ const venderRegistration = (email,value) => {
             <p>if you are comfortable with this price  plz click here </p>
             
             <p>If you have any query regarding  your product fail then contect with company</p>
-            <a href="http://localhost:3001/vendor/negotaition/form/${ser_no}/${id}/${price}" style="display: inline-block; font-size: 16px; color: #ffffff;
-             background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Click Here</a>
+            <a href="http://localhost:3001/vendor/acept/negotable/${ser_no}/${id}/${price}" style="display: inline-block; font-size: 16px; color: #ffffff;
+             background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Accept</a>
+             <br/>
+             <br/>
+            <a href="http://localhost:3001/vendor/acept/negotable/${ser_no}/${id}" style="display: inline-block; font-size: 16px; color: #ffffff;
+             background-color: #FF0000; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Reject </a>
             <br/>
-            <p>otherwise ignore this email </p>
+            
             <br/>
              <p>Regards,<br>Team ASm</p>
             `,

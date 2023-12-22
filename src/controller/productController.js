@@ -35,6 +35,7 @@ exports.getAllVenderByCategory=getAllVenderByCategory;
 exports.buyProductPerticularvender=buyProductPerticularvender;
 exports.venderDelete=venderDelete;
 exports.negotiable=negotiable;
+exports.vendernereject=vendernereject;
 // four digit generate num function 
  async function generateUniqueSerialNumber() {
 //   let ser_no;
@@ -532,27 +533,50 @@ async function negotiable(req,res){
     return response.negativeResponce(res, `error +${error}`, error);
   }
 }
-async function venderNogo(req,res){
+async function venderNogo(req, res) {
   try {
-    var{price,
-      ser_no,
-      id,}=req.body;
-      var tes=await task.findOne
-      ({ser_no:ser_no});
-      if(tes){
-     
-        const venderToUpdate = tes.venders.find(vender =>vender.ven_id == id);
-        if (venderToUpdate) {
-          venderToUpdate.price = price;
-          await tes.save();
-          response.userResponse(res, " update to company", tes);
-        } else {
-          console.log('Vender not found'); 
-        }
-          response.userResponse(res, " vender are created", tes);
-        }else{return response.negativeResponce(res, `error something wrong plz contect to company`, error);}
+    var { price, taskId, id } = req.body;
+    var vandit = await task.findById({taskId });
+
+    if (vandit) {
+      const venderToUpdate = vandit.venders.find(vender => vender.ven_id == id);
+
+      if (venderToUpdate) {
+        venderToUpdate.price = venderToUpdate.neg_price;
+        venderToUpdate.neg_price = price;
+        await vandit.save();
+        return response.userResponse(res, "Update to vender's price", vandit);
+      } else {
+        console.log('Vender not found');
+      }
+    } else {
+      return response.negativeResponce(res, `Error: Something went wrong, please contact the company`, error);
+    }
   } catch (error) {
     console.log("error ", error);
-    return response.negativeResponce(res, `error +${error}`, error);
+    return response.negativeResponce(res, `Error: ${error}`, error);
+  }
+}
+async function vendernereject(req, res) {
+  try {
+    var { taskId, id } = req.body;
+    var jyant = await task.findById(taskId);
+
+    if (jyant) {
+      const venderToUpdate = jyant.venders.find(vender => vender.ven_id == id);
+
+      if (venderToUpdate) {
+        venderToUpdate.price = null;
+        await jyant.save();
+        return response.userResponse(res, "I AM not intrested", jyant);
+      } else {
+        console.log('Vender not found');
+      }
+    } else {
+      return response.negativeResponce(res, `Error: Something went wrong, please contact the company`, error);
+    }
+  } catch (error) {
+    console.log("error ", error);
+    return response.negativeResponce(res, `Error: ${error}`, error);
   }
 }
