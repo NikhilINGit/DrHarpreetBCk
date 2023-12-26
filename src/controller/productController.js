@@ -533,17 +533,17 @@ async function negotiable(req,res){
     return response.negativeResponce(res, `error +${error}`, error);
   }
 }
+
 async function venderNogo(req, res) {
   try {
-    var { price, taskId, id } = req.body;
-    var vandit = await task.findById({taskId });
+    var { price, ser_no, id } = req.body;
+    var vandit = await task.find({ser_no:ser_no });
 
     if (vandit) {
       const venderToUpdate = vandit.venders.find(vender => vender.ven_id == id);
 
       if (venderToUpdate) {
-        venderToUpdate.price = venderToUpdate.neg_price;
-        venderToUpdate.neg_price = price;
+        venderToUpdate.price =  price;
         await vandit.save();
         return response.userResponse(res, "Update to vender's price", vandit);
       } else {

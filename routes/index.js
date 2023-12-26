@@ -69,8 +69,8 @@ router.get("/allvender",middleware.authMidle,middleware.expectAdminAccess,produc
 router.post("/deleteVender",middleware.authMidle,middleware.adminacess, productController.deleteVender);
 router.post("/deleteVenders",middleware.authMidle,middleware.expectAdminAccess, productController.deleteVender);
 router.post("/buy/product/vender", productController.VenderProductAccess);
-router.post("/vender/negoaccept", productController.venderNogo);
-router.post("/vender/negoareject", productController.vendernereject);
+router.post("/vender/negoatiable", productController.venderNogo);
+// router.post("/vender/negoareject", productController.vendernereject);
 router.get("/allvender/task",middleware.authMidle,middleware.expectAdminAccess,productController.allvendersbytask);
 router.get("/allTask/quality", middleware.authMidle,middleware.expectAdminAccess,productController.getAllTask);
 router.get("/get/allvender/Quality",middleware.authMidle,middleware.expectAdminAccess,productController.getAllVenderByCategory);
