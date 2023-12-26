@@ -94,7 +94,7 @@ const venderRegistration = (email,value) => {
             <p>if you are comfortable with this price  plz click here </p>
             
             <p>If you have any query regarding  your product fail then contect with company</p>
-            <a href="http://localhost:3001/vendor/negotable/form/${ser_no}/${id}/${price}" style="display: inline-block; font-size: 16px; color: #ffffff;
+            <a href="http://localhost:3001/vendor/negotaition/form/${ser_no}/${id}/${price}" style="display: inline-block; font-size: 16px; color: #ffffff;
              background-color: #007bff; border: none; padding: 10px 20px; text-align: center; text-decoration: none; border-radius: 5px;">Accept</a>
              <br/>
             othervise ingored it : )

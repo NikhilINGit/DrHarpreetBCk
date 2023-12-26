@@ -523,9 +523,10 @@ async function negotiable(req,res){
         { $set: { "venders.$[elem].neg_price": negotiateValue } },
         { arrayFilters: [{ "elem.ven_id": venderid }], new: true }
       );
-      var vemn =await vender.findById(venderid).select({"email":1});
-
-      mailhelper.negomail(vemn.email,negotiateValue, updatedTask.ser_no,venderid);
+      var ashish =await vender.findById(venderid).select({"email":1});
+      var prakash=await task.findById(_id).select({task_no:1})
+// console.log("-----------",prakash.task_no)
+      mailhelper.negomail(ashish.email,negotiateValue, prakash.task_no,venderid);
       await updatedTask.save();
       return response.userResponse(res,"negotiable mail send",{});
   } catch (error) {
@@ -537,20 +538,17 @@ async function negotiable(req,res){
 async function venderNogo(req, res) {
   try {
     var { price, ser_no, id } = req.body;
-    var vandit = await task.find({ser_no:ser_no });
-
-    if (vandit) {
-      const venderToUpdate = vandit.venders.find(vender => vender.ven_id == id);
-
-      if (venderToUpdate) {
-        venderToUpdate.price =  price;
-        await vandit.save();
-        return response.userResponse(res, "Update to vender's price", vandit);
-      } else {
-        console.log('Vender not found');
-      }
+    var pandatJi = await task.findOne({ task_no: ser_no });
+    if (pandatJi) {
+      var vandit = await task.findByIdAndUpdate(
+        pandatJi._id,
+        { $set: { "venders.$[tmc].price": price } },
+        { arrayFilters: [{ "tmc.ven_id": id }], new: true }
+      );
+      return response.userResponse(res, "Update to vender's price", vandit);
     } else {
-      return response.negativeResponce(res, `Error: Something went wrong, please contact the company`, error);
+      console.log("Pandatji with task_no: " + ser_no + " not found");
+      return response.userResponse(res, "Pandatji not found", null);
     }
   } catch (error) {
     console.log("error ", error);
